@@ -45,7 +45,7 @@ preds = model.predict_proba(x_test, batch_size=128)
 print preds
 
 print 'Formatting predictions DataFrame...\n'
-df = format_submission(preds, len(x_test))
+df = format_submission(preds)
 print df.head()
 
 print '\nExporting predictions to CSV...\n'
