@@ -14,6 +14,8 @@ x_train = pd.read_csv(path_to_file+'data/x_train.csv')
 y_train = pd.read_csv(path_to_file+'data/y_train.csv')
 x_test = pd.read_csv(path_to_file+'data/x_test.csv')
 
+input_shape = x_train.shape[1]
+
 x_train = x_train.values.reshape(18255, 10348)
 y_train = y_train.values.reshape(18255,)
 y_train = to_categorical(y_train, num_classes)
@@ -24,12 +26,15 @@ print 'y_train shape: {}'.format(y_train.shape)
 print 'x_test shape: {}\n'.format(x_test.shape)
 
 print 'Defining model...\n'
-units = 57
+units = 33
 model = Sequential()
-model.add(Dense(units, activation='relu', input_shape=(10348,)))
+model.add(Dense(units, activation='relu', input_shape=(input_shape,)))
+model.add(Dense(units, activation='relu'))
+model.add(Dense(units, activation='relu'))
 model.add(Dense(num_classes, activation='softmax')) 
+
 model.compile(loss='binary_crossentropy',
-              optimizer='adam',
+              optimizer='Adam',
               metrics=['accuracy'])
 
 print 'Fitting model...\n'
@@ -49,7 +54,7 @@ df = format_submission(preds)
 print df.head()
 
 print '\nExporting predictions to CSV...\n'
-sub_number = 6
+sub_number = 13
 df.to_csv(path_to_file+'submissions/submission{}.csv'.format(sub_number), index=False)
 
 print 'Program complete.'
